@@ -57,6 +57,7 @@ def medir_tiempo(func: Callable[[], int]) -> Tuple[int, float]:
     """
     pass # Completar
 
+    return func(), perf_counter() - elapsed
 
 # NO MODIFICAR - INICIO
 result, elapsed = medir_tiempo(partial(calcular_posibilidades, lista, limite))
@@ -74,6 +75,14 @@ def medir_tiempo(func: Callable[[Sequence[int], int], int]) -> Callable[[Sequenc
     tome una cantidad arbitraria de parámetros.
     """
     pass # Completar
+
+    def closureFunction(*argumentos):
+        lista2 = []
+        permutaciones = func(lista,limite)
+        lista2.append(permutaciones)
+        lista2.append(perf_counter() - elapsed)
+        return tuple(lista2)
+    return closureFunction
 
 
 # NO MODIFICAR - INICIO
@@ -129,6 +138,12 @@ def memoized(func):
     """
     pass # Completar
 
+    def memf(lista, limite):
+        if limite not in cache:
+            cache[limite] = func(lista, limite)
+        return cache[limite]
+    cache = {}
+    return memf
 
 @medir_tiempo
 @memoized
@@ -172,6 +187,12 @@ sucesivas.
 def calcular_posibilidades_recursiva(lista: Sequence[int], limite: int) -> int:
     """Re-Escribir de manera recursiva"""
     pass # Completar
+
+    count = 0
+    for i in range(limite):
+        for _ in permutations(lista, i):
+            count += 1
+    return count
 
 
 # NO MODIFICAR - INICIO
